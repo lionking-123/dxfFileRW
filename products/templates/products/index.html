@@ -1,0 +1,37 @@
+{% extends 'products/base.html' %}
+
+{% block content %}
+    <div class = "row">
+        <div class = "row col-md-12">
+            <label for = "url_input" class = "col-md-2" style = "margin-top : 10px">Test Url : </label>
+            <input type = "text" id = "url_input" style = "margin-top : 2px; margin-right : 20px;" class = "form-control col-md-7">
+            <button id = "submit" class = "btn btn-success col-md-2">Submit</button>
+        </div>
+        <div class="col-md-12" style = "margin-top : 20px">
+            <textarea id = "result" rows = "6" class = "form-control"></textarea>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#submit', function() {
+                $.ajax({
+                    url : "/getdxf",
+                    type : "GET",
+                    data : {
+                        url : $("#url_input").val()
+                    },
+                    success: function(res) {
+                        str = "Uploaded_Url : " + res["Uploaded_Url"] + "\n";
+                        str += "Width : " + res["Width"] + "\n";
+                        str += "Height : " + res["Height"] + "\n";
+                        str += "Total_Length : " + res["Total_Length"] + "\n";
+                        str += "Hatch_area : " + res["Hatch_area"] + "\n";
+                        str += "Units : Inch\n";
+
+                        $("#result").val(str);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
